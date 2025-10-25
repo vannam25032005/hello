@@ -1,4 +1,4 @@
-//package connectDB;
+1//package connectDB;
 //
 //import java.sql.Connection;
 //import java.sql.DriverManager;

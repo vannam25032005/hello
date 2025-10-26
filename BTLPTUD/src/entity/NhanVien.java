@@ -1,107 +1,81 @@
 package entity;
 
-import java.util.Objects;
+import java.sql.Date;
 
 public class NhanVien {
 	private String maNV;
-	private String tenNv;
-	private String sdt;
-	private String diaChi;
-	private String chucVu;
-
-	public NhanVien(String maNV, String tenNv, String sdt, String diaChi, String chucVu) {
-		super();
-		this.maNV = maNV;
-		this.tenNv = tenNv;
-		this.sdt = sdt;
-		this.diaChi = diaChi;
-		this.chucVu = chucVu;
-	}
-	
-
-	public NhanVien(String maNV) {
-		super();
-		this.maNV = maNV;
-	}
-	
-	public NhanVien(String maNV, String sdt) {
-			super();
-			this.maNV = maNV;
-			this.sdt = sdt;
-	}
-
-
-//
-//	public NhanVien(NhanVien nhanVien) {
-//		super();
-//		this.NhanVien= nhanVien;
-//	}
-
-
+	private String hoTen;
+	private int cccd;
+	private int soDienThoai;
+	private String email;
+	private boolean gioiTinh;
+	private Date ngaySinh;
+	private String trangThai;
 	public String getMaNV() {
 		return maNV;
 	}
-
 	public void setMaNV(String maNV) {
 		this.maNV = maNV;
 	}
-
-	public String getTenNv() {
-		return tenNv;
+	public String getHoTen() {
+		return hoTen;
 	}
-
-	public void setTenNv(String tenNv) {
-		this.tenNv = tenNv;
+	public void setHoTen(String hoTen) {
+		this.hoTen = hoTen;
 	}
-
-	public String getSdt() {
-		return sdt;
+	public int getCccd() {
+		return cccd;
 	}
-
-	public void setSdt(String sdt) {
-		this.sdt = sdt;
+	public void setCccd(int cccd) {
+		this.cccd = cccd;
 	}
-
-	public String getDiaChi() {
-		return diaChi;
+	public int getSoDienThoai() {
+		return soDienThoai;
 	}
-
-	public void setDiaChi(String diaChi) {
-		this.diaChi = diaChi;
+	public void setSoDienThoai(int soDienThoai) {
+		this.soDienThoai = soDienThoai;
 	}
-
-	public String getChucVu() {
-		return chucVu;
+	public String getEmail() {
+		return email;
 	}
-
-	public void setChucVu(String chucVu) {
-		this.chucVu = chucVu;
+	public void setEmail(String email) {
+		this.email = email;
 	}
-
-	
-
+	public boolean isGioiTinh() {
+		return gioiTinh;
+	}
+	public void setGioiTinh(boolean gioiTinh) {
+		this.gioiTinh = gioiTinh;
+	}
+	public Date getNgaySinh() {
+		return ngaySinh;
+	}
+	public void setNgaySinh(Date ngaySinh) {
+		this.ngaySinh = ngaySinh;
+	}
+	public String getTrangThai() {
+		return trangThai;
+	}
+	public void setTrangThai(String trangThai) {
+		this.trangThai = trangThai;
+	}
+	public NhanVien(String maNV, String hoTen, int cccd, int soDienThoai, String email, boolean gioiTinh, Date ngaySinh,
+			String trangThai) {
+		super();
+		this.maNV = maNV;
+		this.hoTen = hoTen;
+		this.cccd = cccd;
+		this.soDienThoai = soDienThoai;
+		this.email = email;
+		this.gioiTinh = gioiTinh;
+		this.ngaySinh = ngaySinh;
+		this.trangThai = trangThai;
+	}
 	@Override
 	public String toString() {
-		return "NhanVien [maNV=" + maNV + ", tenNv=" + tenNv + ", sdt=" + sdt + ", diaChi=" + diaChi + ", chucVu="
-				+ chucVu + "]";
-	}
-
-
-	@Override
-	public int hashCode() {
-		return Objects.hash(maNV);
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		NhanVien other = (NhanVien) obj;
-		return Objects.equals(maNV, other.maNV);
+		return "NhanVien [maNV=" + maNV + ", hoTen=" + hoTen + ", cccd=" + cccd + ", soDienThoai=" + soDienThoai
+				+ ", email=" + email + ", gioiTinh=" + gioiTinh + ", ngaySinh=" + ngaySinh + ", trangThai=" + trangThai
+				+ "]";
 	}
 	
 }

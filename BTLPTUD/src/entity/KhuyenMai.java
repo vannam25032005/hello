@@ -1,8 +1,8 @@
 package entity;
 
 import java.sql.Date;
-
-public class KhuyenMai {
+1
+public cl1ass KhuyenMai {
 	private String maKM;
 	private String tenKM;
 	private String moTa;
@@ -15,7 +15,7 @@ public class KhuyenMai {
 	public void setMaKM(String maKM) {
 		this.maKM = maKM;
 	}
-	public String getTenKM() {
+	public String getTenKM() {saadấdâda
 		return tenKM;
 	}
 	public void setTenKM(String tenKM) {

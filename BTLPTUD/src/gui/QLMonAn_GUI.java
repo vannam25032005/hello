@@ -6,13 +6,22 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -20,15 +29,22 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
 
-public class QLMonAn_GUI extends JPanel {
+import dao.MonAn_DAO;
+import entity.MonAn;
+
+public class QLMonAn_GUI extends JPanel implements ActionListener,MouseListener {
 
     // Khai báo biến tiếng Việt
     private JTextField txtMaMon, txtTenMon, txtGia, txtTimKiem;
     private JComboBox<String> cboLoaiMon, cboLoaiTimKiem, cboSapXep;
     private JButton btnThemMon, btnChinhSua, btnTimKiem, btnChonFile;
     private JLabel lblKhongCoFile, lblAnhPreview;
+	private MonAn_DAO MonAn_DAO;
+	private DefaultTableModel model;
+	private JTable table;
 
     public QLMonAn_GUI() {
         setLayout(new BorderLayout());
@@ -74,6 +90,7 @@ public class QLMonAn_GUI extends JPanel {
         pnlTenMon.add(lblTenMon);
         pnlTenMon.add(txtTenMon);
         pnlFormFields.add(pnlTenMon);
+
 
         // Loại món
         JPanel pnlLoaiMonForm = new JPanel(new FlowLayout(FlowLayout.CENTER));
@@ -158,7 +175,7 @@ public class QLMonAn_GUI extends JPanel {
         JPanel pnlRight = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         pnlRight.setBackground(new Color(255, 225, 190));
         pnlRight.setOpaque(false);
-        String[] loaiOptions = {"Tất cả", "Đồ ăn", "Đồ uống"};
+        String[] loaiOptions = {"Tất cả", "Đồ ăn", "Đồ uống","ăn vặt"};
         cboLoaiTimKiem = new JComboBox<>(loaiOptions);
         String[] sortOptions = {"Mới nhất", "Giá tăng dần"};
         cboSapXep = new JComboBox<>(sortOptions);
@@ -176,53 +193,9 @@ public class QLMonAn_GUI extends JPanel {
         // ===== BẢNG DANH SÁCH MÓN =====
         String[] columns = {"Mã món", "Tên món", "Loại món", "Giá"};
         Object[][] data = {
-            {"MA01", "Phở", "Đồ ăn", "100.000 VND"},
-            {"MA02", "Bò kho", "Đồ ăn", "120.000 VND"},
-            {"MA03", "Trà đá", "Đồ uống", "10.000 VND"},
-            {"MA04", "Sinh tố dâu", "Đồ uống", "80.000 VND"},
-            {"MA01", "Phở", "Đồ ăn", "100.000 VND"},
-            {"MA02", "Bò kho", "Đồ ăn", "120.000 VND"},
-            {"MA03", "Trà đá", "Đồ uống", "10.000 VND"},
-            {"MA04", "Sinh tố dâu", "Đồ uống", "80.000 VND"},
-            {"MA01", "Phở", "Đồ ăn", "100.000 VND"},
-            {"MA02", "Bò kho", "Đồ ăn", "120.000 VND"},
-            {"MA03", "Trà đá", "Đồ uống", "10.000 VND"},
-            {"MA04", "Sinh tố dâu", "Đồ uống", "80.000 VND"},
-            {"MA01", "Phở", "Đồ ăn", "100.000 VND"},
-            {"MA02", "Bò kho", "Đồ ăn", "120.000 VND"},
-            {"MA03", "Trà đá", "Đồ uống", "10.000 VND"},
-            {"MA04", "Sinh tố dâu", "Đồ uống", "80.000 VND"},
-            {"MA01", "Phở", "Đồ ăn", "100.000 VND"},
-            {"MA02", "Bò kho", "Đồ ăn", "120.000 VND"},
-            {"MA03", "Trà đá", "Đồ uống", "10.000 VND"},
-            {"MA04", "Sinh tố dâu", "Đồ uống", "80.000 VND"},
-            {"MA01", "Phở", "Đồ ăn", "100.000 VND"},
-            {"MA02", "Bò kho", "Đồ ăn", "120.000 VND"},
-            {"MA03", "Trà đá", "Đồ uống", "10.000 VND"},
-            {"MA04", "Sinh tố dâu", "Đồ uống", "80.000 VND"},
-            {"MA01", "Phở", "Đồ ăn", "100.000 VND"},
-            {"MA02", "Bò kho", "Đồ ăn", "120.000 VND"},
-            {"MA03", "Trà đá", "Đồ uống", "10.000 VND"},
-            {"MA04", "Sinh tố dâu", "Đồ uống", "80.000 VND"},
-            {"MA01", "Phở", "Đồ ăn", "100.000 VND"},
-            {"MA02", "Bò kho", "Đồ ăn", "120.000 VND"},
-            {"MA03", "Trà đá", "Đồ uống", "10.000 VND"},
-            {"MA04", "Sinh tố dâu", "Đồ uống", "80.000 VND"},
-            {"MA01", "Phở", "Đồ ăn", "100.000 VND"},
-            {"MA02", "Bò kho", "Đồ ăn", "120.000 VND"},
-            {"MA03", "Trà đá", "Đồ uống", "10.000 VND"},
-            {"MA04", "Sinh tố dâu", "Đồ uống", "80.000 VND"},
-            {"MA01", "Phở", "Đồ ăn", "100.000 VND"},
-            {"MA02", "Bò kho", "Đồ ăn", "120.000 VND"},
-            {"MA03", "Trà đá", "Đồ uống", "10.000 VND"},
-            {"MA04", "Sinh tố dâu", "Đồ uống", "80.000 VND"},
-            {"MA01", "Phở", "Đồ ăn", "100.000 VND"},
-            {"MA02", "Bò kho", "Đồ ăn", "120.000 VND"},
-            {"MA03", "Trà đá", "Đồ uống", "10.000 VND"},
-            {"MA04", "Sinh tố dâu", "Đồ uống", "80.000 VND"},
         };
-        DefaultTableModel model = new DefaultTableModel(data, columns);
-        JTable table = new JTable(model);
+        model = new DefaultTableModel(data, columns);
+        table = new JTable(model);
         table.setPreferredScrollableViewportSize(new Dimension(800, 200));
         table.setFillsViewportHeight(true);
         table.setGridColor(Color.GRAY);
@@ -230,7 +203,166 @@ public class QLMonAn_GUI extends JPanel {
 
         JScrollPane scrollTable = new JScrollPane(table);
         add(scrollTable, BorderLayout.CENTER);
+        btnThemMon.addActionListener(this);
+        btnChinhSua.addActionListener(this);
+        btnTimKiem.addActionListener(this);
+        btnChonFile.addActionListener(this);
+        table.addMouseListener(this);
+        cboLoaiTimKiem.addActionListener(this);
+        cboSapXep.addActionListener(this);
+        MonAn_DAO = new MonAn_DAO();
+        loadDataToTable();
     }
+    private void loadDataToTable() {
+        model.setRowCount(0); // Xóa bảng cũ
+        List<MonAn> dsMon = MonAn_DAO.docTuBang();
+        for (MonAn mon : dsMon) {
+            model.addRow(new Object[]{
+                mon.getMaMon(),
+                mon.getTenMon(),
+                mon.getLoaiMon(),
+                String.format("%.0f VNĐ", mon.getGiaMon())
+            });
+        }
+    }
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        Object obj = e.getSource();
+        if(btnChonFile.equals(obj)) {
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setDialogTitle("Chọn ảnh món ăn");
+        fileChooser.setAcceptAllFileFilterUsed(false);
+        fileChooser.addChoosableFileFilter(
+                new FileNameExtensionFilter("Ảnh (*.jpg, *.png, *.jpeg)", "jpg", "png", "jpeg"));
 
- 
+        int url = fileChooser.showOpenDialog(null);
+        if (url == JFileChooser.APPROVE_OPTION) {
+            File selectedFile = fileChooser.getSelectedFile();
+            String path = selectedFile.getAbsolutePath();
+            lblKhongCoFile.setText(path);
+            lblKhongCoFile.setForeground(Color.BLACK);
+        }
+        }
+        
+
+        if (obj.equals(btnThemMon)) {
+            try {
+                String ma = txtMaMon.getText().trim();
+                String ten = txtTenMon.getText().trim();
+                String loai = cboLoaiMon.getSelectedItem().toString();
+                double gia = Double.parseDouble(txtGia.getText().trim());
+                String hinhAnh = lblKhongCoFile.getText();
+                String maQL = null; // không gán cứng nữa
+
+                MonAn mon = new MonAn(ma, ten, loai, gia, hinhAnh, maQL);
+
+                if (MonAn_DAO.themMonAn(mon)) {
+                    JOptionPane.showMessageDialog(this, "Thêm món thành công!");
+                    loadDataToTable();
+                } else {
+                    JOptionPane.showMessageDialog(this, "Thêm món thất bại!");
+                }
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(this, "Lỗi: " + ex.getMessage());
+                ex.printStackTrace();
+            }
+        }
+
+        if (obj.equals(btnTimKiem)) {
+            String keyword = txtTimKiem.getText().trim();
+            List<MonAn> result = MonAn_DAO.timTheoTen(keyword);
+            model.setRowCount(0);
+            for (MonAn mon : result) {
+                model.addRow(new Object[]{
+                    mon.getMaMon(), mon.getTenMon(), mon.getLoaiMon(),
+                    String.format("%.0f VNĐ", mon.getGiaMon())
+                });
+            }
+        }
+        if (obj.equals(btnChinhSua)) {
+        	try {
+                String ma = txtMaMon.getText().trim();
+                String ten = txtTenMon.getText().trim();
+                String loai = cboLoaiMon.getSelectedItem().toString();
+                double gia = Double.parseDouble(txtGia.getText().trim());
+                String hinhAnh = lblKhongCoFile.getText();
+                String maQL = null;
+
+                MonAn mon = new MonAn(ma, ten, loai, gia, hinhAnh, maQL);
+
+                if (MonAn_DAO.chinhSuaMonAn(mon)) {
+                    JOptionPane.showMessageDialog(this, "Cập nhật thành công!");
+                    loadDataToTable();
+                } else {
+                    JOptionPane.showMessageDialog(this, "Cập nhật thất bại!");
+                }
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(this, "Lỗi: " + ex.getMessage());
+            }
+        }
+        if (obj.equals(cboLoaiTimKiem) || obj.equals(cboSapXep)) {
+            String loai = cboLoaiTimKiem.getSelectedItem().toString();
+            String kieu = cboSapXep.getSelectedItem().toString().equals("Giá tăng dần") ? "ASC" : "DESC";
+            List<MonAn> dsLoc = MonAn_DAO.locMonAn(loai, kieu);
+
+            model.setRowCount(0);
+            for (MonAn mon : dsLoc) {
+                model.addRow(new Object[]{
+                    mon.getMaMon(),
+                    mon.getTenMon(),
+                    mon.getLoaiMon(),
+                    String.format("%.0f VNĐ", mon.getGiaMon()),
+                    mon.getHinhAnh()
+                });
+            }
+        }
+
+        	
+    }
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		// TODO Auto-generated method stub
+		int row = table.getSelectedRow();
+	    if (row >= 0) {
+	        txtMaMon.setText(model.getValueAt(row, 0).toString());
+	        txtTenMon.setText(model.getValueAt(row, 1).toString());
+	        cboLoaiMon.setSelectedItem(model.getValueAt(row, 2).toString());
+	        String giaStr = model.getValueAt(row, 3).toString().replace("VNĐ", "").trim();
+	        txtGia.setText(giaStr.replace(",", ""));
+
+	        // ✅ Lấy đối tượng MonAn gốc để hiển thị đường dẫn ảnh
+	        String maMon = model.getValueAt(row, 0).toString();
+	        MonAn mon = MonAn_DAO.docTuBang().stream()
+	                .filter(m -> m.getMaMon().equals(maMon))
+	                .findFirst().orElse(null);
+	        if (mon != null && mon.getHinhAnh() != null) {
+	            lblKhongCoFile.setText(mon.getHinhAnh());
+	            lblKhongCoFile.setForeground(Color.BLACK);
+	        } else {
+	            lblKhongCoFile.setText("No file chosen");
+	            lblKhongCoFile.setForeground(Color.GRAY);
+	        }
+	    }
+		
+	}
+	@Override
+	public void mousePressed(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void mouseExited(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
 }
